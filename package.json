@@ -1,6 +1,6 @@
 {
   "name": "franxx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A vanilla JavaScript router that works everywhere.",
   "repository": {
     "url": "egoist/franxx",
