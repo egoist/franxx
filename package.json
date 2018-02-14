@@ -30,6 +30,7 @@
     "cypress": "^1.4.2",
     "eslint-config-rem": "^3.0.0",
     "eslint-plugin-cypress": "^2.0.1",
+    "express": "^4.16.2",
     "npm-run-all": "^4.1.2",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^2.0.5",
@@ -38,10 +39,15 @@
   "xo": {
     "extends": "rem",
     "plugins": [
-        "cypress"
-      ],
-    "envs": ["cypress/globals", "browser"],
-    "ignores": ["examples/**"],
+      "cypress"
+    ],
+    "envs": [
+      "cypress/globals",
+      "browser"
+    ],
+    "ignores": [
+      "examples/**"
+    ],
     "rules": {
       "unicorn/filename-case": "off",
       "import/no-unassigned-import": "off"
