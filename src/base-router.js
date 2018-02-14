@@ -30,7 +30,7 @@ export default class BaseRouter {
 
   find(path) {
     const arr = matchit.match(path, this.routes)
-    if (!arr.length) return null
+    if (arr.length === 0) return null
     return {
       params: matchit.exec(path, arr),
       handler: this.handlers[arr[0].old]

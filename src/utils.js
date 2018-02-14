@@ -5,9 +5,9 @@ export const supportPushState = Boolean(
 )
 
 // use User Timing api (if present) for more accurate key precision
-const Time = inBrowser && window.performance && window.performance.now
-  ? window.performance
-  : Date
+const Time = inBrowser && window.performance && window.performance.now ?
+  window.performance :
+  Date
 
 let _key = genKey()
 

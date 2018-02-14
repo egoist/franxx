@@ -1,5 +1,5 @@
 import BaseRouter from './base-router'
-import { removeLeadingSlash, getActualPath } from './utils'
+import { removeLeadingSlash } from './utils'
 
 export default class MemoryRouter extends BaseRouter {
   constructor(options) {

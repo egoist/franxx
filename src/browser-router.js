@@ -1,12 +1,7 @@
-import matchit from 'matchit'
 import BaseRouter from './base-router'
 import { supportPushState, pushState, pushHash, removeLeadingSlash } from './utils'
 
 export default class BrowserRouter extends BaseRouter {
-  constructor(options) {
-    super(options)
-  }
-
   getPath() {
     if (this.useHash) {
       return window.location.hash ? '/' + window.location.hash.slice(this.hashDelimiter.length + 1) : null
