@@ -1,23 +1,31 @@
 version: 2
+
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
-    branches:
-      ignore:
-        - gh-pages # list of branches to ignore
-        - /release\/.*/ # or ignore regexes
+      # the Docker image with Cypress dependencies
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    parallelism: 1
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          keys:
+            - v1-npm-deps-{{ checksum "yarn.lock" }}
       - run:
-          name: install dependences
-          command: yarn
+          name: Install dependencies
+          command: yarn install
       - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
+          key: v1-npm-deps-{{ checksum "yarn.lock" }}
           paths:
-            - ./node_modules
+            - node_modules
       - run:
-          name: test
-          command: yarn test
+          name: Running tests
+          command: npm test
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
