@@ -56,7 +56,6 @@ export default class BrowserRouter extends BaseRouter {
       this.runHandler(path)
     } else if (this.useHash) {
       this.push('/')
-      this.runHandler('/')
     }
   }
 }

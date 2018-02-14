@@ -48,7 +48,7 @@ export default class BaseRouter {
   getActualPath(path) {
     const start = path.slice(0, this.basename.length)
     if (start === this.basename) {
-      return path.slice(this.basename.length)
+      return path.slice(this.basename.length) || '/'
     }
     return path
   }
