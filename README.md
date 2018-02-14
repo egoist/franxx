@@ -10,6 +10,8 @@ yarn add franxx
 
 ## Usage
 
+[![Edit FRANXX example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5kkkkv7mpn)
+
 ```js
 import { HistoryRouter, HashRouter, MemoryRouter } from 'franxx'
 
