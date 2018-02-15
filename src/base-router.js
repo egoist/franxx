@@ -24,7 +24,7 @@ export default class BaseRouter {
 
   off(pattern) {
     this.routes = this.routes.filter(route => route.old !== pattern)
-    delete this.handles[pattern]
+    delete this.handlers[pattern]
     return this
   }
 
