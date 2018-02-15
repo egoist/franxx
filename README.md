@@ -50,9 +50,9 @@ The supported pattern types are:
 
 ## API
 
-### new BaseRouter(options)
+### new BrowserRouter(options)
 
-The class that `HistoryRouter` `HashRouter` `MemoryRouter` extend from.
+The class that `HistoryRouter` `HashRouter` extend from.
 
 #### options
 
