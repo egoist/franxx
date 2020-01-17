@@ -13,124 +13,59 @@ yarn add franxx
 [![Edit FRANXX example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5kkkkv7mpn)
 
 ```js
-import { HistoryRouter, HashRouter, MemoryRouter } from 'franxx'
+import { createBrowserRouter, createHashRouter, createMemoryRouter } from 'franxx'
 
 // Router using HTML5 history API
-// With fallback to HashRouter
-const router = new HistoryRouter()
+// Widely supported (IE 10 and above)
+const router = new createBrowserRouter()
 // Router using location.hash
-// It uses HTML5 pushState if possible
-const router = new HashRouter()
+// Useful for environments like Electron 
+// Where you can't use history API
+const router = new createHashRouter()
 // Router using memory
 // Mainly for server-side or mobile apps
-const router = new MemoryRouter()
+const router = new createMemoryRouter()
 
-router.on('/', () => {
+router.add('/', () => {
   console.log('homepage')
 })
 
-router.on('/user/:name', params => {
+router.add('/user/:name', ({ params, query }) => {
   console.log(params.name)
 })
 
-// Bootstrap router
-router.start()
+// The router by default automatically runs route handler
+// When URL changes
+// But for initial render
+// You need to call this:
+router.run()
+// Equivalent to:
+// const route = router.currentRoute
+// route && route.handler(route)
+
+// Go to another page
+router.push('/user/egoist?from=NASA#profile')
+// Or let us normalize the path for you
+router.push({
+  path: '/user/egoist',
+  query: { from: 'NASA' },
+  hash: '#profile'
+})
 ```
 
-<details><summary>Path patterns like `/user/:name`.</summary>
-<br>
-The supported pattern types are:
+Supported path patterns:
 
-- static (`/users`)
-- named parameters (`/users/:id`)
-- nested parameters (`/users/:id/books/:title`)
-- optional parameters (`/users/:id?/books/:title?`)
-- any match / wildcards (`/users/*`)
-</details>
+* Static (`/foo`, `/foo/bar`)
+* Parameter (`/:title`, `/books/:title`, `/books/:genre/:title`)
+* Parameter w/ Suffix (`/movies/:title.mp4`, `/movies/:title.(mp4|mov)`)
+* Optional Parameters (`/:title?`, `/books/:title?`, `/books/:genre/:title?`)
+* Wildcards (`*`, `/books/*`, `/books/:genre/*`)
+
+Note that the order you add routes matters, dynamic routes should always go last, i.e. add `/about` before adding `*`. We will address this issue in a future version.
 
 ## API
 
-### new BrowserRouter(options)
-
-The class that `HistoryRouter` `HashRouter` extend from.
-
-#### options
-
-##### options.basename
-
-Type: `string`<br>
-Default: `'/'` in `HistoryRouter` `MemoryRouter`, `location.pathname` in `HashRouter`.
-
-The base URL where URLs are relative to. e.g. for a website located at `http://example/blog`, you should set `basename` to `/blog/` when using `HistoryRouter`.
-
-##### options.useHash
-
-Type: `boolean`<br>
-Default: `undefined`
-
-Use hash-based URLs, i.e. the `#` part in URL.
-
-When you set this to `true` but `window.history` API is available we will still use `history.pushState` to update URL state.
-
-When this is set to `false` or left empty, we will try to use `window.history` API and do *NOT* use hash-based URLs, and fallback to hash-based URLs when `window.history` is not supported.
-
-##### options.hashDelimeter
-
-Type: `string`<br>
-Default: `/`
-
-The character separator between `#` and path name.
-
-```js
-const router = new HashRouter()
-router.push('/')
-// location.hash: #/
-router.push('/foo')
-// location.hash: #/foo
-const router = new HashRouter({
-  hashDelimeter: '!'
-})
-router.push('/bar')
-// location.hash: #!bar
-```
-
-### new HistoryRouter(options)
-
-The same as `BrowserRouter`.
-
-### new HashRouter(options)
-
-Like `BrowserRouter` but `options.useHash` is always `true`.
-
-### new MemoryRouter(options)
-
-Like `BrowserRouter` but should be used in non-DOM environment. And does not support hash.
-
-### router
-
-#### router.on(path, handler)
-
-Register a route handler.
-
-#### router.off(path)
-
-Remove a route handler.
-
-#### router.push(path, replace?)
-
-#### router.replace(path)
-
-#### router.go(n)
-
-Only available in `HistoryRouter` and `MemoryRouter`. 
-
-#### router.link(path)
-
-Return a link that can be used in the `href` attribute of an `a` element. Note that you may need to call `e.preventDefault()` in event handler when not using `HashRouter`.
-
-#### router.start(initialPath = '/')
-
-Start the router.
+https://franxx.egoist.sh
 
 ## Contributing
 

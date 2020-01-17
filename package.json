@@ -6,53 +6,38 @@
     "url": "egoist/franxx",
     "type": "git"
   },
+  "types": "dist/index.d.ts",
   "main": "dist/franxx.cjs.js",
-  "module": "dist/franxx.es.js",
-  "cdn": "dist/franxx.js",
-  "unpkg": "dist/franxx.js",
-  "jsdelivr": "dist/franxx.js",
+  "module": "dist/franxx.esm.js",
+  "cdn": "dist/franxx.umd.min.js",
+  "unpkg": "dist/franxx.umd.min.js",
+  "jsdelivr": "dist/franxx.umd.min.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test:e2e",
-    "lint": "xo",
+    "test": "jest",
     "prepublishOnly": "npm run build",
-    "build": "bili --format umd,es,cjs,umd-min --inline --buble.exclude ''",
-    "example": "node examples/server.js",
-    "test:e2e": "run-p --race example cy:run",
-    "cy:run": "cypress run"
+    "prebuild": "rm -rf dist",
+    "build": "bili src/index.ts --format umd,esm,cjs,umd-min --module-name franxx --minimal --file-name franxx.[format][min][ext]",
+    "typedoc": "typedoc --out public --mode file --theme minimal --excludeNotExported --excludeExternals --excludePrivate --excludeProtected"
   },
   "author": "egoist <0x142857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "bili": "^1.3.1",
-    "cypress": "^1.4.2",
-    "eslint-config-rem": "^3.0.0",
-    "eslint-plugin-cypress": "^2.0.1",
-    "express": "^4.16.2",
-    "matchit": "^1.0.1",
-    "npm-run-all": "^4.1.2",
-    "webpack": "^3.11.0",
-    "webpack-dev-middleware": "^2.0.5",
-    "xo": "^0.18.0"
+    "@types/history": "^4.7.4",
+    "@types/jest": "^24.9.0",
+    "@types/querystringify": "^2.0.0",
+    "bili": "^4.8.1",
+    "jest": "^24.9.0",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-jest": "^24.3.0",
+    "typedoc": "^0.16.7",
+    "typescript": "^3.7.5"
   },
-  "xo": {
-    "extends": "rem",
-    "plugins": [
-      "cypress"
-    ],
-    "envs": [
-      "cypress/globals",
-      "browser"
-    ],
-    "ignores": [
-      "examples/**"
-    ],
-    "rules": {
-      "unicorn/filename-case": "off",
-      "import/no-unassigned-import": "off"
-    }
-  },
-  "dependencies": {}
+  "dependencies": {
+    "history": "^4.10.1",
+    "querystringify": "^2.1.1",
+    "regexparam": "^1.3.0"
+  }
 }

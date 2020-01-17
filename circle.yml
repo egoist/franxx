@@ -3,11 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      # the Docker image with Cypress dependencies
-      - image: cypress/base:8
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
+      - image: circleci/node:latest
     working_directory: ~/app
     parallelism: 1
     steps:
@@ -25,7 +21,6 @@ jobs:
       - run:
           name: Running tests
           command: npm test
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
+      - run:
+          name: Release
+          command: npx semantic-release

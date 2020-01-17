@@ -4,3 +4,6 @@ dist/
 # cypress
 screenshots
 videos
+
+# typedoc
+public
