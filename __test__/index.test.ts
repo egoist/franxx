@@ -25,6 +25,6 @@ test('normalize path', () => {
   router.add('/', ({ query, hash }) => {
     text = `${query.text} ${hash.slice(1)}`
   })
-  router.push({ path: '/', query: { text: 'hello' }, hash: '#foo' })
+  router.push({ pathname: '/', query: { text: 'hello' }, hash: '#foo' })
   expect(text).toBe('hello foo')
 })

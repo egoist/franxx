@@ -15,18 +15,64 @@ export function getParams(path: string, pattern: RegExp, keys?: string[]) {
   return null
 }
 
-export type PathObject = {
-  path?: string
-  query?: {
+export type LooseLocation = {
+  readonly pathname?: string
+  readonly query?: string | {
     [k: string]: any
   }
-  hash?: string
+  readonly hash?: string
 }
 
-export function normalizePath(path: string | PathObject) {
-  if (typeof path === 'object') {
-    return `${path.path || ''}${path.query ? qs.stringify(path.query, true) : ''}${path.hash || ''}`
+export type Location = {
+  readonly pathname: string
+  readonly query: {
+    [k: string]: any
+  }
+  readonly search: string
+  readonly hash: string
+}
+
+export function locationToPath(location: string | LooseLocation): string {
+  if (typeof location === 'object') {
+    return `${location.pathname || ''}${
+      typeof location.query === 'string'
+        ? location.query
+        : location.query
+        ? qs.stringify(location.query, true)
+        : ''
+    }${location.hash || ''}`
   }
 
-  return path
+  return location
+}
+
+const PATH_REGEXP = /^([^\?#]*)(\?[^#]*)?(#.*)?$/
+
+export function pathToLocation(path: string | LooseLocation): Location {
+  if (typeof path === 'object') {
+    const {query = {}} = path
+    return {
+      pathname: path.pathname || '/',
+      get query() {
+        return typeof query === 'string' ? qs.parse(query) : query
+      },
+      get search() {
+        return typeof query === 'string' ? query : qs.stringify(query)
+      },
+      hash: path.hash || ''
+    }
+  }
+
+  const matches = PATH_REGEXP.exec(path)
+  if (!matches) throw new Error(`Not a valid path`)
+
+  const search = matches[2] || ''
+  return {
+    pathname: matches[1] || '',
+    get query() {
+      return qs.parse(search)
+    },
+    search,
+    hash: matches[3] || ''
+  }
 }

@@ -47,7 +47,7 @@ router.run()
 router.push('/user/egoist?from=NASA#profile')
 // Or let us normalize the path for you
 router.push({
-  path: '/user/egoist',
+  pathname: '/user/egoist',
   query: { from: 'NASA' },
   hash: '#profile'
 })

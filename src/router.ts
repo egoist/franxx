@@ -1,7 +1,11 @@
 import regexparam from 'regexparam'
 import { History } from 'history'
-import qs from 'querystringify'
-import { getParams, normalizePath, PathObject } from './utils'
+import {
+  getParams,
+  pathToLocation,
+  LooseLocation,
+  locationToPath
+} from './utils'
 
 export interface Route {
   path: string
@@ -10,23 +14,28 @@ export interface Route {
   keys: string[]
 }
 
-export interface CurrentRoute {
-  /** Route path */
-  path: string
-  handler: RouteHandler
+export interface ResolvedRoute {
+  /** Full path */
+  readonly path: string
+  /** Path name only, excluding search and query */
+  readonly pathname: string
   /** Route parameters */
-  params: {
+  readonly params: {
     [k: string]: any
   }
   /** Parsed `location.search` */
   readonly query: {
     [k: string]: any
   }
+  /** Original `location.search`  */
+  readonly search: string
   /** An empty string or a string starting with `#` */
-  hash: string
+  readonly hash: string
+  /** Matched route definition */
+  readonly route: Route
 }
 
-export type RouteHandler = (currentRoute: CurrentRoute) => void | Promise<void>
+export type RouteHandler = (currentRoute: ResolvedRoute) => void | Promise<void>
 
 export class Router {
   public routes: Route[]
@@ -51,12 +60,12 @@ export class Router {
     this.history.goBack()
   }
 
-  push(path: string | PathObject) {
-    this.history.push(normalizePath(path))
+  push(path: string | LooseLocation) {
+    this.history.push(locationToPath(path))
   }
 
-  replace(path: string | PathObject) {
-    this.history.replace(normalizePath(path))
+  replace(path: string | LooseLocation) {
+    this.history.replace(locationToPath(path))
   }
 
   /** Add a route handle */
@@ -74,21 +83,27 @@ export class Router {
    * Run matched route handler
    */
   run() {
-    const route = this.currentRoute
-    if (route) {
-      return route.handler(route)
+    const resolved = this.currentRoute
+    if (resolved) {
+      return resolved.route.handler(resolved)
     }
   }
 
   /** Find a route that matches give path */
-  find(path: string) {
+  resolve(path: string | LooseLocation): ResolvedRoute | null {
+    const location = pathToLocation(path)
+
     for (const route of this.routes) {
-      const params = getParams(path, route.pattern, route.keys)
+      const params = getParams(location.pathname, route.pattern, route.keys)
       if (params) {
         return {
-          path,
           params,
-          handler: route.handler
+          path: location.pathname,
+          pathname: location.pathname,
+          search: location.search,
+          query: location.query,
+          hash: location.hash,
+          route
         }
       }
     }
@@ -97,19 +112,13 @@ export class Router {
   }
 
   /** Get the route that matches current path */
-  get currentRoute(): CurrentRoute | null {
+  get currentRoute(): ResolvedRoute | null {
     const { pathname, search, hash } = this.history.location
-    const route = this.find(pathname)
-    return (
-      route && {
-        path: route.path,
-        params: route.params,
-        handler: route.handler,
-        hash,
-        get query() {
-          return qs.parse(search)
-        }
-      }
-    )
+    const location = this.resolve({
+      pathname,
+      query: search,
+      hash
+    })
+    return location
   }
 }
