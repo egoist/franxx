@@ -17,14 +17,14 @@ import { createBrowserRouter, createHashRouter, createMemoryRouter } from 'franx
 
 // Router using HTML5 history API
 // Widely supported (IE 10 and above)
-const router = new createBrowserRouter()
+const router = createBrowserRouter()
 // Router using location.hash
 // Useful for environments like Electron 
 // Where you can't use history API
-const router = new createHashRouter()
+const router = createHashRouter()
 // Router using memory
 // Mainly for server-side or mobile apps
-const router = new createMemoryRouter()
+const router = createMemoryRouter()
 
 router.add('/', () => {
   console.log('homepage')
