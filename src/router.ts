@@ -127,7 +127,7 @@ export class Router {
         } else if (path instanceof Error) {
           this.errorHandlers.forEach(handle => handle(path))
         } else if (typeof path === 'string' || typeof path === 'object') {
-          this.push(path)
+          this.replace(path)
         } else {
           this.back()
         }
