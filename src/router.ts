@@ -1,5 +1,5 @@
 import regexparam from 'regexparam'
-import { History } from 'history'
+import { History, Location as HistoryLocation } from 'history'
 import {
   getParams,
   pathToLocation,
@@ -37,14 +37,43 @@ export interface ResolvedRoute {
 
 export type RouteHandler = (currentRoute: ResolvedRoute) => void | Promise<void>
 
+/**
+ * - `string|LooseLocation` Navigate to another route
+ * - `true|undefined` Continue to next hook
+ * - `Error` Abort the navigate and pass the error to callbacks registered via `router.onError()`
+ * - `false` Abort the navigation
+ */
+export type Next = (
+  path?: string | boolean | LooseLocation | Error) => void
+
+export type BeforeEachHook = (
+  /** The target route being navigated to */
+  to: ResolvedRoute,
+  /** The current route being navigated away from. */
+  from: ResolvedRoute | undefined | null,
+  /** This function must be called to resolve the hook */
+  next: Next
+) => any
+
+export type ErrorHandler = (error: Error) => any
+
 export class Router {
   public routes: Route[]
+  public beforeEachHooks: BeforeEachHook[]
+  private currentLocation: HistoryLocation
+  private errorHandlers: ErrorHandler[]
 
   constructor(public history: History) {
+    this.currentLocation = history.location
     this.routes = []
+    this.beforeEachHooks = []
+    this.errorHandlers = []
 
     this.history.listen(() => {
-      this.run()
+      const from = this.resolveFromCurrentLocation()
+      this.currentLocation = this.history.location
+      const to = this.resolveFromCurrentLocation()
+      this.run(to, from)
     })
   }
 
@@ -82,10 +111,28 @@ export class Router {
   /**
    * Run matched route handler
    */
-  run() {
-    const resolved = this.currentRoute
-    if (resolved) {
-      return resolved.route.handler(resolved)
+  run(to?: ResolvedRoute | null, from?: ResolvedRoute | null) {
+    to = to || this.currentRoute || undefined
+    if (to) {
+      const beforeEachHooks: BeforeEachHook[] = [
+        ...this.beforeEachHooks,
+        to => to.route.handler(to)
+      ]
+      const runHook = (hook?: BeforeEachHook) => {
+        hook && hook(to!, from, next)
+      }
+      const next: Next = path => {
+        if (path === undefined || path === true) {
+          runHook(beforeEachHooks.shift())
+        } else if (path instanceof Error) {
+          this.errorHandlers.forEach(handle => handle(path))
+        } else if (typeof path === 'string' || typeof path === 'object') {
+          this.push(path)
+        } else {
+          this.back()
+        }
+      }
+      runHook(beforeEachHooks.shift())
     }
   }
 
@@ -111,14 +158,24 @@ export class Router {
     return null
   }
 
+  private resolveFromCurrentLocation() {
+    return this.resolve({
+      pathname: this.currentLocation.pathname,
+      query: this.currentLocation.search,
+      hash: this.currentLocation.hash
+    })
+  }
+
   /** Get the route that matches current path */
   get currentRoute(): ResolvedRoute | null {
-    const { pathname, search, hash } = this.history.location
-    const location = this.resolve({
-      pathname,
-      query: search,
-      hash
-    })
-    return location
+    return this.resolveFromCurrentLocation()
+  }
+
+  beforeEach(hook: BeforeEachHook) {
+    this.beforeEachHooks.push(hook)
+  }
+
+  onError(errorHandler: ErrorHandler) {
+    this.errorHandlers.push(errorHandler)
   }
 }

@@ -39,9 +39,6 @@ router.add('/user/:name', ({ params, query }) => {
 // But for initial render
 // You need to call this:
 router.run()
-// Equivalent to:
-// const route = router.currentRoute
-// route && route.handler(route)
 
 // Go to another page
 router.push('/user/egoist?from=NASA#profile')

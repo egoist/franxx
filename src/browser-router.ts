@@ -9,7 +9,9 @@ export interface BrowserRouterOptions {
 }
 
 export const createBrowserRouter = (options: BrowserRouterOptions = {}) => {
-  const history = createBrowserHistory({ basename: options.base })
+  const history = createBrowserHistory({
+    basename: options.base
+  })
   const router = new Router(history)
   return router
 }
