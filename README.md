@@ -1,6 +1,6 @@
 # FRANXX <img align="right" src="https://i.loli.net/2018/02/14/5a8446a61b2e0.jpg" height="40">
 
-[![NPM version](https://img.shields.io/npm/v/franxx.svg?style=for-the-badge)](https://npmjs.com/package/franxx) [![NPM downloads](https://img.shields.io/npm/dm/franxx.svg?style=for-the-badge)](https://npmjs.com/package/franxx) [![CircleCI](https://img.shields.io/circleci/project/github/egoist/franxx/master.svg?style=for-the-badge)](https://circleci.com/gh/egoist/franxx/tree/master)  [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=for-the-badge)](https://github.com/egoist/donate) [![chat](https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge)](https://chat.egoist.moe)
+[![NPM version](https://img.shields.io/npm/v/franxx.svg?style=for-the-badge)](https://npmjs.com/package/franxx) [![NPM downloads](https://img.shields.io/npm/dm/franxx.svg?style=for-the-badge)](https://npmjs.com/package/franxx) [![CircleCI](https://img.shields.io/circleci/project/github/egoist/franxx/master.svg?style=for-the-badge)](https://circleci.com/gh/egoist/franxx/tree/master)  [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=for-the-badge)](https://github.com/sponsors/egoist) [![chat](https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge)](https://chat.egoist.sh)
 
 ## Install
 
