@@ -60,6 +60,18 @@ Supported path patterns:
 
 Note that the order you add routes matters, dynamic routes should always go last, i.e. add `/about` before adding `*`. We will address this issue in a future version.
 
+### CDN
+
+You can also load franxx from [JSDelivr](https://www.jsdelivr.com/package/npm/franxx) or [UNPKG](https://unpkg.com/franxx/):
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/franxx@1.2.1/dist/franxx.umd.min.js"></script>
+
+<script>
+const router = franxx.createBrowserRouter()
+</script>
+```
+
 ## API
 
 https://franxx.egoist.sh
