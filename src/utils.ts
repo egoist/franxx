@@ -1,4 +1,11 @@
-import qs from 'querystringify'
+const stringifyQuery = (query: Record<string, string>) => {
+  const str = new URLSearchParams(query).toString()
+  return str ? `?${str}` : ''
+}
+
+const parseQuery = (query: string) => {
+  return Object.fromEntries(new URLSearchParams(query))
+}
 
 export function getParams(path: string, pattern: RegExp, keys?: string[]) {
   const matches = pattern.exec(path)
@@ -17,9 +24,11 @@ export function getParams(path: string, pattern: RegExp, keys?: string[]) {
 
 export type LooseLocation = {
   readonly pathname?: string
-  readonly query?: string | {
-    [k: string]: any
-  }
+  readonly query?:
+    | string
+    | {
+        [k: string]: any
+      }
   readonly hash?: string
 }
 
@@ -38,7 +47,7 @@ export function locationToPath(location: string | LooseLocation): string {
       typeof location.query === 'string'
         ? location.query
         : location.query
-        ? qs.stringify(location.query, true)
+        ? stringifyQuery(location.query)
         : ''
     }${location.hash || ''}`
   }
@@ -50,16 +59,16 @@ const PATH_REGEXP = /^([^\?#]*)(\?[^#]*)?(#.*)?$/
 
 export function pathToLocation(path: string | LooseLocation): Location {
   if (typeof path === 'object') {
-    const {query = {}} = path
+    const { query = {} } = path
     return {
       pathname: path.pathname || '/',
       get query() {
-        return typeof query === 'string' ? qs.parse(query) : query
+        return typeof query === 'string' ? parseQuery(query) : query
       },
       get search() {
-        return typeof query === 'string' ? query : qs.stringify(query)
+        return typeof query === 'string' ? query : stringifyQuery(query)
       },
-      hash: path.hash || ''
+      hash: path.hash || '',
     }
   }
 
@@ -70,9 +79,9 @@ export function pathToLocation(path: string | LooseLocation): Location {
   return {
     pathname: matches[1] || '',
     get query() {
-      return qs.parse(search)
+      return parseQuery(search)
     },
     search,
-    hash: matches[3] || ''
+    hash: matches[3] || '',
   }
 }

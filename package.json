@@ -7,37 +7,27 @@
     "type": "git"
   },
   "types": "dist/index.d.ts",
-  "main": "dist/franxx.cjs.js",
-  "module": "dist/franxx.esm.js",
-  "cdn": "dist/franxx.umd.min.js",
-  "unpkg": "dist/franxx.umd.min.js",
-  "jsdelivr": "dist/franxx.umd.min.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "vitest run",
     "prepublishOnly": "npm run build",
-    "prebuild": "rm -rf dist",
-    "build": "bili src/index.ts --format umd,esm,cjs,umd-min --module-name franxx --minimal --file-name franxx.[format][min][ext]",
-    "typedoc": "typedoc --out public --mode file --theme minimal --excludeNotExported --excludeExternals --excludePrivate --excludeProtected"
+    "build": "rm -rf dist && tsup src/index.ts --format cjs,esm --dts --target node16"
   },
   "author": "egoist <0x142857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/history": "^4.7.4",
-    "@types/jest": "^24.9.0",
-    "@types/querystringify": "^2.0.0",
-    "bili": "^4.8.1",
-    "jest": "^24.9.0",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "ts-jest": "^24.3.0",
-    "typedoc": "^0.16.7",
-    "typescript": "^3.7.5"
+    "history": "^5.2.0",
+    "kanpai": "^0.10.0",
+    "regexparam": "^2.0.0",
+    "tsup": "^5.11.11",
+    "typescript": "^4.5.4",
+    "vitest": "^0.0.139"
   },
-  "dependencies": {
-    "history": "^4.10.1",
-    "querystringify": "^2.1.1",
-    "regexparam": "^1.3.0"
+  "peerDependencies": {
+    "history": "^5.2.0"
   }
 }

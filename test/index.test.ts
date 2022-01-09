@@ -1,8 +1,12 @@
-import { createMemoryRouter } from '../src'
+import { createMemoryHistory } from 'history'
+import { test, expect } from 'vitest'
+import { createRouter } from '../src'
 
 test('simple', () => {
   let text: string | undefined
-  const router = createMemoryRouter()
+  const router = createRouter({
+    history: createMemoryHistory(),
+  })
   router.add('/', () => {
     text = 'home'
   })
@@ -21,7 +25,9 @@ test('simple', () => {
 
 test('normalize path', () => {
   let text: string | undefined
-  const router = createMemoryRouter()
+  const router = createRouter({
+    history: createMemoryHistory(),
+  })
   router.add('/', ({ query, hash }) => {
     text = `${query.text} ${hash.slice(1)}`
   })

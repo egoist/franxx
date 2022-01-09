@@ -1,10 +1,10 @@
-import regexparam from 'regexparam'
+import { parse } from 'regexparam'
 import { History, Location as HistoryLocation } from 'history'
 import {
   getParams,
   pathToLocation,
   LooseLocation,
-  locationToPath
+  locationToPath,
 } from './utils'
 
 export interface Route {
@@ -43,8 +43,7 @@ export type RouteHandler = (currentRoute: ResolvedRoute) => void | Promise<void>
  * - `Error` Abort the navigate and pass the error to callbacks registered via `router.onError()`
  * - `false` Abort the navigation
  */
-export type Next = (
-  path?: string | boolean | LooseLocation | Error) => void
+export type Next = (path?: string | boolean | LooseLocation | Error) => void
 
 export type BeforeEachHook = (
   /** The target route being navigated to */
@@ -57,14 +56,20 @@ export type BeforeEachHook = (
 
 export type ErrorHandler = (error: Error) => any
 
+export type Options = { history: History }
+
+export const createRouter = (options: Options) => new Router(options)
+
 export class Router {
   public routes: Route[]
   public beforeEachHooks: BeforeEachHook[]
   private currentLocation: HistoryLocation
   private errorHandlers: ErrorHandler[]
+  public history: History
 
-  constructor(public history: History) {
-    this.currentLocation = history.location
+  constructor(options: Options) {
+    this.history = options.history
+    this.currentLocation = this.history.location
     this.routes = []
     this.beforeEachHooks = []
     this.errorHandlers = []
@@ -82,11 +87,11 @@ export class Router {
   }
 
   forward() {
-    this.history.goForward()
+    this.history.forward()
   }
 
   back() {
-    this.history.goBack()
+    this.history.back()
   }
 
   push(path: string | LooseLocation) {
@@ -99,13 +104,13 @@ export class Router {
 
   /** Add a route handle */
   add(path: string, handler: RouteHandler) {
-    const { pattern, keys } = regexparam(path)
+    const { pattern, keys } = parse(path)
     this.routes.push({ path, handler, pattern, keys })
   }
 
   /** Remove a route handler */
   remove(path: string) {
-    this.routes = this.routes.filter(route => route.path !== path)
+    this.routes = this.routes.filter((route) => route.path !== path)
   }
 
   /**
@@ -116,16 +121,16 @@ export class Router {
     if (to) {
       const beforeEachHooks: BeforeEachHook[] = [
         ...this.beforeEachHooks,
-        to => to.route.handler(to)
+        (to) => to.route.handler(to),
       ]
       const runHook = (hook?: BeforeEachHook) => {
         hook && hook(to!, from, next)
       }
-      const next: Next = path => {
+      const next: Next = (path) => {
         if (path === undefined || path === true) {
           runHook(beforeEachHooks.shift())
         } else if (path instanceof Error) {
-          this.errorHandlers.forEach(handle => handle(path))
+          this.errorHandlers.forEach((handle) => handle(path))
         } else if (typeof path === 'string' || typeof path === 'object') {
           this.replace(path)
         } else {
@@ -150,7 +155,7 @@ export class Router {
           search: location.search,
           query: location.query,
           hash: location.hash,
-          route
+          route,
         }
       }
     }
@@ -162,7 +167,7 @@ export class Router {
     return this.resolve({
       pathname: this.currentLocation.pathname,
       query: this.currentLocation.search,
-      hash: this.currentLocation.hash
+      hash: this.currentLocation.hash,
     })
   }
 
