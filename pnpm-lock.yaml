@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   history: 5.2.0
-  kanpai: 0.10.0
+  kanpai: 0.10.1
   regexparam: 2.0.0
   tsup: 5.11.11
   typescript: 4.5.4
@@ -10,7 +10,7 @@ specifiers:
 
 devDependencies:
   history: 5.2.0
-  kanpai: 0.10.0
+  kanpai: 0.10.1
   regexparam: 2.0.0
   tsup: 5.11.11_typescript@4.5.4
   typescript: 4.5.4
@@ -689,8 +689,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /kanpai/0.10.0:
-    resolution: {integrity: sha512-1ZlLRZIVFEY9XoJKCoRuvHQfvT9AxoshYgmhevH1UhuXSm8JkTeIPTJoCWTvtl+InkrIEEQL9UbbpJB27zGyBQ==}
+  /kanpai/0.10.1:
+    resolution: {integrity: sha512-EUmZoO4FxphrH0blToWScMEUWyqHUg6x31WgW8ruUhj6EPy4FpI2j+z0LJ3qnUiIeGObrkx/xToH2hFcxLwtuA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dev: true
