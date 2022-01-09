@@ -1,12 +1,12 @@
 lockfileVersion: 5.3
 
 specifiers:
-  history: ^5.2.0
-  kanpai: ^0.10.0
-  regexparam: ^2.0.0
-  tsup: ^5.11.11
-  typescript: ^4.5.4
-  vitest: ^0.0.139
+  history: 5.2.0
+  kanpai: 0.10.0
+  regexparam: 2.0.0
+  tsup: 5.11.11
+  typescript: 4.5.4
+  vitest: 0.0.139
 
 devDependencies:
   history: 5.2.0
