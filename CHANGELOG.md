@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+No unreleased changes.
+
+## 2.0.1
+
 Breaking changes:
 
 - Make `history` a peer dependency:
