@@ -14,7 +14,9 @@ npm i franxx history
 import { createRouter } from 'franxx'
 import { createBrowserHistory } from 'history'
 
-const router = createRouter(createBrowserHistory())
+const router = createRouter({
+  history: createBrowserHistory(),
+})
 
 router.add('/', () => {
   console.log('homepage')
