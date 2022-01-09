@@ -29,5 +29,12 @@
   },
   "peerDependencies": {
     "history": "^5.2.0"
-  }
+  },
+  "keywords": [
+    "router",
+    "js",
+    "tiny",
+    "web",
+    "frontend"
+  ]
 }
