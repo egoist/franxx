@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  history: 5.2.0
+  history: 5.3.0
   kanpai: 0.10.0
   regexparam: 2.0.0
   tsup: 5.11.11
@@ -9,7 +9,7 @@ specifiers:
   vitest: 0.0.139
 
 devDependencies:
-  history: 5.2.0
+  history: 5.3.0
   kanpai: 0.10.0
   regexparam: 2.0.0
   tsup: 5.11.11_typescript@4.5.4
@@ -618,8 +618,8 @@ packages:
       function-bind: 1.1.1
     dev: true
 
-  /history/5.2.0:
-    resolution: {integrity: sha512-uPSF6lAJb3nSePJ43hN3eKj1dTWpN9gMod0ZssbFTIsen+WehTmEadgL+kg78xLJFdRfrrC//SavDzmRVdE+Ig==}
+  /history/5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
     dependencies:
       '@babel/runtime': 7.16.7
     dev: true
