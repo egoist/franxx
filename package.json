@@ -20,7 +20,7 @@
   "author": "egoist <0x142857@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "history": "5.2.0",
+    "history": "5.3.0",
     "kanpai": "0.10.0",
     "regexparam": "2.0.0",
     "tsup": "5.11.11",
