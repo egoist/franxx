@@ -24,7 +24,7 @@
     "kanpai": "0.10.0",
     "regexparam": "2.0.0",
     "tsup": "5.11.11",
-    "typescript": "4.5.4",
+    "typescript": "4.7.4",
     "vitest": "0.0.139"
   },
   "peerDependencies": {
