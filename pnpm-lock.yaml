@@ -5,15 +5,15 @@ specifiers:
   kanpai: 0.10.0
   regexparam: 2.0.0
   tsup: 5.11.11
-  typescript: 4.5.4
+  typescript: 4.7.4
   vitest: 0.0.139
 
 devDependencies:
   history: 5.2.0
   kanpai: 0.10.0
   regexparam: 2.0.0
-  tsup: 5.11.11_typescript@4.5.4
-  typescript: 4.5.4
+  tsup: 5.11.11_typescript@4.7.4
+  typescript: 4.7.4
   vitest: 0.0.139
 
 packages:
@@ -990,7 +990,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsup/5.11.11_typescript@4.5.4:
+  /tsup/5.11.11_typescript@4.7.4:
     resolution: {integrity: sha512-rgbTu+KhAI9PdGUS07rKohDXbRLTstBGJaxl75q7RZYRGF+n+kN8L4RlXY5pqYb9Hsq0gEB6nS39v7nSvVBS+g==}
     hasBin: true
     peerDependencies:
@@ -1013,7 +1013,7 @@ packages:
       source-map: 0.7.3
       sucrase: 3.20.3
       tree-kill: 1.2.2
-      typescript: 4.5.4
+      typescript: 4.7.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -1024,8 +1024,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /typescript/4.5.4:
-    resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
+  /typescript/4.7.4:
+    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
